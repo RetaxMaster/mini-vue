@@ -42,9 +42,15 @@ class PlatziReactive {
         if(!this.deps.has(name)) {
 
             const effect = () => {
+
                 document.querySelectorAll(`*[p-text=${name}]`).forEach(el => {
                     this.pText(el, target, name);
                 });
+
+                document.querySelectorAll(`*[p-model=${name}]`).forEach(el => {
+                    this.pModel(el, target, name);
+                });
+
             };
 
             this.deps.set(name, effect);
