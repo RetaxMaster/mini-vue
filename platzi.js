@@ -21,7 +21,7 @@ class PlatziReactive {
 
                 }
 
-                console.warn(`La porpiedad [${name}] no existe`);
+                console.warn(`La propiedad [${name}] no existe`);
                 return "";
 
             },
@@ -39,7 +39,7 @@ class PlatziReactive {
 
     track(target, name) {
 
-        if(this.deps.has(name)) {
+        if(!this.deps.has(name)) {
 
             const effect = () => {
                 document.querySelectorAll(`*[p-text=${name}]`).forEach(el => {
@@ -74,7 +74,7 @@ class PlatziReactive {
             this.pModel(el, this.$data, name);
 
             el.addEventListener("input", () => {
-                Reflect.set(this.$data, name, this.value);
+                Reflect.set(this.$data, name, el.value);
             });
 
         });
