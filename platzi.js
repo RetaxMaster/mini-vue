@@ -51,6 +51,25 @@ class PlatziReactive {
                     this.pModel(el, target, name);
                 });
 
+                Array.from(document.querySelectorAll("*"))
+                .filter(el => {
+                    // Metemos en un array sus atributos y los recorrermos
+                    return [...el.attributes].some(
+                        attr => attr.name.startsWith('p-bind:') && attr.value == name
+                    )
+                })
+                .forEach(el => {
+                    console.log(el);
+                    [...el.attributes].forEach(attribute => {
+
+                        const value = attribute.value;
+                        const attr = attribute.name.split(":").pop();
+                        if(name == value)
+                            this.pBind(el, target, name, attr);
+
+                    })
+                });
+
             };
 
             this.deps.set(name, effect);
@@ -85,6 +104,24 @@ class PlatziReactive {
 
         });
 
+        Array.from(document.querySelectorAll("*"))
+        .filter(el => {
+            // Metemos en un array sus atributos y los recorrermos
+            return [...el.attributes].some(
+                attr => attr.name.startsWith('p-bind:')
+            )
+        })
+        .forEach(el => {
+            [...el.attributes].forEach(attribute => {
+
+                const name = attribute.value;
+                const attr = attribute.name.split(":").pop();
+
+                this.pBind(el, this.$data, name, attr);
+
+            })
+        });
+
     }
 
     pText(el, target, name) {
@@ -96,6 +133,12 @@ class PlatziReactive {
     pModel(el, target, name) {
 
         el.value = Reflect.get(target, name);
+
+    }
+
+    pBind(el, target, name, attr) {
+
+        Reflect.set(el, attr, Reflect.get(target, name))
 
     }
 

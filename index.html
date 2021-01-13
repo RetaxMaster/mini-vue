@@ -12,6 +12,8 @@
         <span p-text="message"></span>
         <input type="text" p-model="message">
         <input type="text" p-model="message">
+
+        <img p-bind:src="image" p-bind:id="imageId">
         
     </div>
 
@@ -25,7 +27,9 @@
 
             data() {
                 return {
-                    message: "Hola Vue"
+                    message: "Hola Vue", 
+                    image: "https://via.placeholder.com/600/771796",
+                    imageId: "myId"
                 }
             },
 
